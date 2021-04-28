@@ -1,6 +1,5 @@
 # simple_sqlite
 
-[![PyPI version](https://badge.fury.io/py/selenium-driver-updater.svg)](https://badge.fury.io/py/simple_sqlite)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/Svinokur/simple_sqlite/master/LICENSE)
 
 It is a fast and convenience package that can help you using sqlite3 library much easier and faster.
