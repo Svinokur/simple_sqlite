@@ -1,0 +1,4 @@
+exclude simple_sqlite/_setting.py
+exclude simple_sqlite/runSqliteTest.py
+exclude simple_sqlite/testDatabase.db
+exclude simple_sqlite/testDatabaseUpd.db

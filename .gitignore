@@ -1,2 +1,7 @@
 simple_sqlite.egg-info/*
 dist/*
+simple_sqlite/__pycache__/*.pyc
+simple_sqlite/*.db
+simple_sqlite/*.log
+simple_sqlite/test/__pycache__/*.pyc
+.DS_Store
