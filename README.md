@@ -1,11 +1,16 @@
 # simple_sqlite
 
+[![PyPI version](https://badge.fury.io/py/simple-sqlite.svg)](https://badge.fury.io/py/simple-sqlite)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/Svinokur/simple_sqlite/master/LICENSE)
 [![Downloads](https://pepy.tech/badge/simple-sqlite)](https://pepy.tech/project/simple-sqlite)
 [![Downloads](https://pepy.tech/badge/simple-sqlite/month)](https://pepy.tech/project/simple-sqlite)
 [![Downloads](https://pepy.tech/badge/simple-sqlite/week)](https://pepy.tech/project/simple-sqlite)
 [![Donate with Bitcoin](https://en.cryptobadges.io/badge/micro/32GJnnDrPkSKVzrRho84KwD5RsMW4ywMiW)](https://en.cryptobadges.io/donate/32GJnnDrPkSKVzrRho84KwD5RsMW4ywMiW)
 [![Donate with Ethereum](https://en.cryptobadges.io/badge/micro/0xf2691CC12a70B4589edf081E059fD4A1c457417D)](https://en.cryptobadges.io/donate/0xf2691CC12a70B4589edf081E059fD4A1c457417D)
+
+[![Windows](https://github.com/Svinokur/simple_sqlite/actions/workflows/windows-tests.yml/badge.svg)](https://github.com/Svinokur/simple_sqlite/actions/workflows/windows-tests.yml)
+[![macOS](https://github.com/Svinokur/simple_sqlite/actions/workflows/macOS-tests.yml/badge.svg)](https://github.com/Svinokur/simple_sqlite/actions/workflows/macOS-tests.yml)
+[![Ubuntu](https://github.com/Svinokur/simple_sqlite/actions/workflows/ubuntu-tests.yml/badge.svg)](https://github.com/Svinokur/simple_sqlite/actions/workflows/ubuntu-tests.yml)
 
 It is a fast and convenience package that can help you using sqlite3 library much easier and faster.
 
