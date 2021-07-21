@@ -14,7 +14,7 @@ keywords = ['sqlite', 'sqlite3']
  
 setup(
   name='simple_sqlite',
-  version='1.1.0',
+  version='2.0.0',
   description='This package can help you using sqlite3 library much easier and faster.',
   long_description=long_description,
   long_description_content_type='text/markdown', 

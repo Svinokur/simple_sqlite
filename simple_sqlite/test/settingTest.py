@@ -1,10 +1,13 @@
+#Standart library imports
 import unittest
 import sys
 import time
 import os.path
 import os
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
+#Local imports
 from _setting import setting
 
 base_dir = os.path.dirname(os.path.abspath(__file__))[:-5] + os.path.sep
@@ -17,14 +20,16 @@ class testSetting(unittest.TestCase):
         startTime (float)   : Time of starting unit-tests
     """
 
+    @classmethod
+    def setUpClass(cls):
+        cls.setting = setting
+
     def setUp(self):
-        self.setting = setting
-        
-        self.startTime : float = time.time()
+        self.start_time : float = time.time()
 
     def tearDown(self):
-        t = time.time() - self.startTime
-        print("%.3f" % t)
+        end_time = time.time() - self.start_time
+        print("%.3f" % end_time)
 
     #@unittest.skip('Temporary not needed')
     def test01_checkCountMainParam(self):

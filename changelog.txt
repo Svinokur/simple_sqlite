@@ -1,3 +1,19 @@
+[2.0.0] 21/07/2021
+This code was written and tested on Python 3.9.6
+
+# Added
+
+- Added automatic connect to database while class initialize (no need to calling for open_database method)
+- Added some info while connecting to database
+- Added exception raising instead of error handling pattern (removed returning result and message from all methods)
+
+# Other
+
+- Structured imports
+- Removed all os.path calls to pathlib.Path
+- Renamed "open_database" method to "connect_to_db"
+- Removed error handling pattern
+
 [1.1.0] 01/05/2021
 This version provides innovations and minor improvements.
 This code was written and tested on Python 3.9.4

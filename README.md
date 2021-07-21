@@ -12,6 +12,8 @@
 [![macOS](https://github.com/Svinokur/simple_sqlite/actions/workflows/macOS-tests.yml/badge.svg)](https://github.com/Svinokur/simple_sqlite/actions/workflows/macOS-tests.yml)
 [![Ubuntu](https://github.com/Svinokur/simple_sqlite/actions/workflows/ubuntu-tests.yml/badge.svg)](https://github.com/Svinokur/simple_sqlite/actions/workflows/ubuntu-tests.yml)
 
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/Svinokur/simple_sqlite)
+
 It is a fast and convenience package that can help you using sqlite3 library much easier and faster.
 
 ## Installation
