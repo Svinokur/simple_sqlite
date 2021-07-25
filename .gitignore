@@ -5,3 +5,4 @@ simple_sqlite/*.db
 simple_sqlite/*.log
 simple_sqlite/test/__pycache__/*.pyc
 .DS_Store
+simple_sqlite/util/__pycache__/*.pyc

@@ -2,25 +2,23 @@
 import sys
 import os
 import traceback
-import logging
 from typing import Tuple, Any
 from shutil import copyfile
-import logging
 from pathlib import Path
 
 #sqlite3 imports
 import sqlite3
 from sqlite3 import OperationalError
 
+#Local imports
+from simple_sqlite.util.logger import logger, levels
+
 class SimpleSqlite():
+    """Class for working with sqlite3"""
 
     def __init__(self, dbfile : str):
-        """Class for working with sqlite3
 
-        Args:
-            dbfile (str): Path to database
-        """
-        logging.basicConfig(level=logging.INFO)
+        logger.setLevel(levels['info'])
 
         self.conn : Any = None
         self.dbFile : str = dbfile
@@ -28,30 +26,30 @@ class SimpleSqlite():
         self.connect_to_db(self.dbFile)
 
     def __del__(self):
-        if self.conn != None: 
+        if self.conn is not None:
             self.conn.close()
 
     def connect_to_db(self, dbfile : str = ''):
+        """Functions for connection to specific database"""
         try:
             if not dbfile:
                 dbfile = self.dbFile
 
             self.conn = sqlite3.connect(dbfile)
-            logging.info(f'Successfully connected to database "{Path(dbfile).stem}"')
+            logger.info(f'Successfully connected to database "{Path(dbfile).stem}"')
 
         except Exception:
-            logging.error(traceback.format_exc())
+            logger.error(traceback.format_exc())
 
 
     def create_database(self) -> None:
         """Creates the database (.db file) with specified name
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
-        
         try:
             if Path(self.dbFile).is_file():
                 os.remove(self.dbFile)
@@ -64,7 +62,7 @@ class SimpleSqlite():
 
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
     def open_database(self) -> None:
         """Opens the database
@@ -74,23 +72,23 @@ class SimpleSqlite():
 
             result_run (bool)       : True if function passed correctly, False otherwise.
             message_run (str)       : Empty string if function passed correctly, non-empty string if error.
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
         try:
-            
+
             message = """This is old method for opening database and soon will be closed. 
                         Please use method "connect_to_db" if you want to use another database"""
-            logging.warning(message)
+            logger.warning(message)
 
             self.connect_to_db(self.dbFile)
 
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
     def create_table(self, tablename : str, strSql : str) -> Tuple[str, list[str], list[str]]:
         """Creates the table in database with specified table name
@@ -107,9 +105,9 @@ class SimpleSqlite():
             tableName (str)         : Table name of the created table
             namesFields (list[str]) : All fields of the created table
             typeFields  (list[str]) : Type of all fields of the created table
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
@@ -118,23 +116,21 @@ class SimpleSqlite():
         typeFields : list[str] = []
 
         try:
-        
+
             self.conn.execute(strSql) 
             strSql = "select name from sqlite_master WHERE type='table' AND name='{}'".format(tablename)
             cur = self.conn.execute(strSql)
             tableName =  cur.fetchone()[0]
             strSql = "SELECT name, type FROM PRAGMA_TABLE_INFO('" + tablename + "')"
             cur = self.conn.execute(strSql)
-            namesFields = []
-            typeFields = []
             rows = cur.fetchall()
             for row in rows:
-                namesFields.append(row[0])    
+                namesFields.append(row[0])
                 typeFields.append(row[1])
 
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
         return tableName, namesFields, typeFields
 
@@ -146,9 +142,9 @@ class SimpleSqlite():
             data (list[Any])        : Specified data which will be used for insertion
             mode (str)              : Delete all previously created data or not. Defaults to empty string.
             replace_symbol (bool)   : Delete symbol ' and " before inserting data. Defaults to False.
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
@@ -157,16 +153,16 @@ class SimpleSqlite():
         insData = None
 
         try:
-            
+
             if mode == "delete":
-                
+
                 strSql = "delete from " + tablename 
                 self.conn.execute(strSql) 
                 self.conn.commit()
-                
+
 
             strSql = "SELECT name FROM PRAGMA_TABLE_INFO('" + tablename + "')"
-            
+
             cur = self.conn.execute(strSql)
             namesFields = []
             rows = cur.fetchall()
@@ -199,11 +195,11 @@ class SimpleSqlite():
 
         except OperationalError:
             message_run = f'OperationalError error: {str(traceback.format_exc())} tablename : {tablename} insData : {insData}'
-            logging.error(message_run)
+            logger.error(message_run)
 
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
 
     def select_table(self, tablename : str) -> list[str]:
@@ -216,9 +212,9 @@ class SimpleSqlite():
             list[str]
 
             rows (list[str])        : All data from the specified table.
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
@@ -246,7 +242,7 @@ class SimpleSqlite():
 
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
         return rows
 
@@ -263,16 +259,16 @@ class SimpleSqlite():
             result_run (bool)           : True if function passed correctly, False otherwise.
             message_run (str)           : Empty string if function passed correctly, non-empty string if error.
             is_autoincrement (bool)     : True if specified column_name is autoincrement, False otherwise
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
         is_autoincrement : bool = False
 
         try:
-            
+
             strSql = f"SELECT pk FROM PRAGMA_TABLE_INFO('{tablename}') where name = '{column_name}'"
             cur = self.conn.execute(strSql)
             row = cur.fetchone()
@@ -310,18 +306,18 @@ class SimpleSqlite():
                 try:
                     cur = self.conn.execute(strSql)
                     rows = cur.fetchall()
-                    for row in rows: 
+                    for row in rows:
                         if row[0] == column_name:
                             is_autoincrement = True
-                except:
+                except Exception:
                     if str(sys.exc_info()[1]) == 'no such table: sqlite_sequence':
-                        return is_autoincrement 
+                        return is_autoincrement
                     else:
-                        raise   
+                        raise
 
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
         return is_autoincrement
 
@@ -336,24 +332,24 @@ class SimpleSqlite():
             list[Any]
 
             rows (list[Any])        : All data from the specified sql script.
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
         rows : list[Any] = []
 
         try:
-            
-            cur = self.conn.execute(sql_script) 
+
+            cur = self.conn.execute(sql_script)
             rows = cur.fetchall()
 
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
-        return rows 
+        return rows
 
     def execute_sql_script(self, sql_script : str) -> None:
         """Executes specified sql script in database
@@ -366,20 +362,20 @@ class SimpleSqlite():
 
             result_run (bool)       : True if function passed correctly, False otherwise.
             message_run (str)       : Empty string if function passed correctly, non-empty string if error.
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
         try:
-            
+
             self.conn.execute(sql_script)
             self.conn.commit()
 
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
     def replace_database(self, full_name_database_src : str, full_name_database_dst : str) -> None:
         """Function for replacing databases
@@ -387,9 +383,9 @@ class SimpleSqlite():
         Args:
             full_name_database_src (str): Full path of source / original database
             full_name_database_dst (str): Full path of destination database
-            
+
         Raises:
-            Except: If unexpected error raised. 
+            Except: If unexpected error raised.
 
         """
 
@@ -407,10 +403,10 @@ class SimpleSqlite():
             if not Path(full_name_database_dst).exists():
                 message_run = f'Destination database does not exists on the given path: {full_name_database_dst}'
                 raise FileNotFoundError(message_run)
-    
+
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
     def create_view(self, viewname : str, strSql : str) -> Tuple[str, list[str], list[str]]:
         """Creates view in database
@@ -434,23 +430,21 @@ class SimpleSqlite():
 
         try:
 
-            cur = self.conn.execute(strSql) 
+            cur = self.conn.execute(strSql)
             strSql = "select name from sqlite_master WHERE type='view' AND name='{}'".format(viewname)
             cur = self.conn.execute(strSql)
             viewName =  cur.fetchone()[0]
             strSql = "SELECT name, type FROM PRAGMA_TABLE_INFO('" + viewname + "')"
             cur = self.conn.execute(strSql)
-            namesFields = []
-            typeFields = []
             rows = cur.fetchall()
 
             for row in rows:
-                namesFields.append(row[0])    
+                namesFields.append(row[0])
                 typeFields.append(row[1])
-            
+
         except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
         return viewName, namesFields, typeFields
 
@@ -463,25 +457,25 @@ class SimpleSqlite():
 
         Returns:
             list[Any]
-        
+
             data (list[Any])        : All data in specific view.
         """
-        
+
         data : list[Any] = []
 
         try:
-            
+
             if filter == None:
                 strSql = "Select * from {}".format(viewname)
             else:
-                strSql = "Select * from {} {}".format(viewname, filter) 
+                strSql = "Select * from {} {}".format(viewname, filter)
 
             cur = self.conn.execute(strSql)
-            data = cur.fetchall() 
+            data = cur.fetchall()
 
-        except:
+        except Exception:
             message_run = f'Unexcepted error: {str(traceback.format_exc())}'
-            logging.error(message_run)
+            logger.error(message_run)
 
         return data
         
