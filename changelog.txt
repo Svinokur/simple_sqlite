@@ -1,3 +1,10 @@
+[2.1.1] 31/07/2021
+This code was written and tested on Python 3.9.6
+
+# Fixes
+
+- Minor fixes
+
 [2.1.0] 25/07/2021
 This code was written and tested on Python 3.9.6
 

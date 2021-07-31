@@ -14,7 +14,7 @@ keywords = ['sqlite', 'sqlite3']
  
 setup(
   name='simple_sqlite',
-  version='2.1.0',
+  version='2.1.1',
   description='This package can help you using sqlite3 library much easier and faster.',
   long_description=long_description,
   long_description_content_type='text/markdown', 
@@ -24,6 +24,6 @@ setup(
   license='MIT', 
   classifiers=classifiers,
   keywords=keywords,
-  packages=['simple_sqlite'],
+  packages=['simple_sqlite', 'simple_sqlite/util'],
   install_requires=[] 
 )
